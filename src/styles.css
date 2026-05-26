@@ -138,6 +138,8 @@ button:focus-visible {
   position: absolute;
   z-index: 10;
   width: min(430px, calc(100vw - 28px));
+  min-width: 320px;
+  min-height: 240px;
   background: #cfcfcf;
   border-top: 3px solid #ffffff;
   border-left: 3px solid #ffffff;
@@ -147,6 +149,10 @@ button:focus-visible {
     inset -2px -2px 0 #9a9a9a,
     inset 2px 2px 0 #ececec,
     7px 7px 0 rgba(68, 42, 82, 0.24);
+}
+
+.desktop-window.is-resizing {
+  user-select: none;
 }
 
 .desktop-window.is-focused .window-titlebar {
@@ -229,12 +235,46 @@ button:focus-visible {
 .window-body {
   margin: 0 3px 3px;
   padding: 10px;
-  min-height: 260px;
+  height: calc(100% - 40px);
+  min-height: 196px;
+  overflow: hidden;
   background: #efefef;
   border-top: 2px solid #777777;
   border-left: 2px solid #777777;
   border-right: 2px solid #ffffff;
   border-bottom: 2px solid #ffffff;
+}
+
+.resize-edge-right,
+.resize-edge-bottom,
+.resize-corner {
+  position: absolute;
+  z-index: 4;
+}
+
+.resize-edge-right {
+  top: 34px;
+  right: -3px;
+  bottom: 14px;
+  width: 8px;
+}
+
+.resize-edge-bottom {
+  left: 3px;
+  right: 14px;
+  bottom: -3px;
+  height: 8px;
+}
+
+.resize-corner {
+  right: 2px;
+  bottom: 2px;
+  width: 16px;
+  height: 16px;
+  background:
+    linear-gradient(135deg, transparent 0 50%, #777777 51% 58%, transparent 59%),
+    linear-gradient(135deg, transparent 0 64%, #777777 65% 72%, transparent 73%),
+    linear-gradient(135deg, transparent 0 78%, #777777 79% 86%, transparent 87%);
 }
 
 .paint-window {
@@ -249,9 +289,12 @@ button:focus-visible {
   width: min(760px, calc(100vw - 28px));
 }
 
+.email-window {
+  width: min(560px, calc(100vw - 28px));
+}
+
 .web-window-body {
-  height: min(680px, calc(100vh - 150px));
-  min-height: 420px;
+  min-height: 0;
   padding: 0;
   overflow: hidden;
   background: #000000;
@@ -265,10 +308,116 @@ button:focus-visible {
   background: #000000;
 }
 
+.email-body {
+  display: grid;
+  gap: 8px;
+  min-height: 0;
+}
+
+.email-form {
+  display: grid;
+  grid-template-rows: auto auto auto minmax(0, 1fr) auto auto auto;
+  gap: 8px;
+  min-height: 0;
+}
+
+.email-row,
+.email-message-row {
+  display: grid;
+  grid-template-columns: 72px minmax(0, 1fr);
+  align-items: start;
+  gap: 8px;
+  font-size: 13px;
+  min-height: 0;
+}
+
+.email-row > span,
+.email-message-row > span {
+  padding-top: 6px;
+  font-weight: 700;
+}
+
+.email-input,
+.email-fixed-to,
+.email-message {
+  width: 100%;
+  color: #111111;
+  background: #ffffff;
+  border-top: 2px solid #777777;
+  border-left: 2px solid #777777;
+  border-right: 2px solid #ffffff;
+  border-bottom: 2px solid #ffffff;
+  font: 13px "MS Sans Serif", "Tahoma", sans-serif;
+  user-select: text;
+  -webkit-user-select: text;
+}
+
+.email-input {
+  height: 30px;
+  padding: 4px 6px;
+}
+
+.email-fixed-to {
+  min-height: 30px;
+  padding: 5px 6px;
+  background: #eeeeee;
+}
+
+.email-message {
+  height: 100%;
+  min-height: 70px;
+  padding: 6px;
+  resize: none;
+}
+
+.email-alert,
+.email-status {
+  margin-left: 80px;
+  padding: 6px 8px;
+  color: #111111;
+  border-top: 2px solid #ffffff;
+  border-left: 2px solid #ffffff;
+  border-right: 2px solid #777777;
+  border-bottom: 2px solid #777777;
+  font-size: 13px;
+}
+
+.email-alert {
+  background: #ffffcc;
+}
+
+.email-status {
+  background: #eeeeee;
+}
+
+.email-actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.send-mail-button {
+  min-width: 98px;
+  min-height: 32px;
+  color: #2e2540;
+  background: #d4d4d4;
+  border-top: 2px solid #ffffff;
+  border-left: 2px solid #ffffff;
+  border-right: 2px solid #777777;
+  border-bottom: 2px solid #777777;
+}
+
+.send-mail-button:active {
+  border-top-color: #777777;
+  border-left-color: #777777;
+  border-right-color: #ffffff;
+  border-bottom-color: #ffffff;
+}
+
 .paint-body {
   display: grid;
   grid-template-columns: 78px minmax(0, 1fr);
   gap: 10px;
+  min-height: 0;
 }
 
 .paint-toolbar {
@@ -324,12 +473,14 @@ button:focus-visible {
   grid-template-rows: minmax(0, 1fr) auto;
   gap: 8px;
   min-width: 0;
+  min-height: 0;
 }
 
 .paint-canvas {
   display: block;
   width: 100%;
-  height: 360px;
+  height: 100%;
+  min-height: 100px;
   touch-action: none;
   background: #ffffff;
   border-top: 2px solid #777777;
@@ -376,8 +527,9 @@ button:focus-visible {
 
 .gallery-body {
   display: grid;
+  grid-template-rows: minmax(0, 1fr) auto;
   gap: 8px;
-  min-height: 420px;
+  min-height: 0;
 }
 
 .gallery-viewer {
@@ -385,14 +537,14 @@ button:focus-visible {
   grid-template-columns: 34px minmax(0, 1fr) 34px;
   align-items: stretch;
   gap: 8px;
-  min-height: 380px;
+  min-height: 0;
 }
 
 .gallery-image {
   display: grid;
   place-items: center;
   min-width: 0;
-  min-height: 380px;
+  min-height: 0;
   margin: 0;
   overflow: hidden;
   background: #000000;

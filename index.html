@@ -22,7 +22,7 @@
           <img class="pixel-icon" src="./1_source/galley.png" alt="" aria-hidden="true" />
           <span class="icon-label">Gallery</span>
         </button>
-        <button class="desktop-icon" type="button">
+        <button class="desktop-icon" type="button" data-open-window="email-window" data-open-single="true">
           <img class="pixel-icon" src="./1_source/email.png" alt="" aria-hidden="true" />
           <span class="icon-label">Email</span>
         </button>
@@ -122,6 +122,46 @@
         </div>
       </section>
 
+      <section
+        class="desktop-window email-window is-hidden"
+        id="email-window"
+        style="left: 330px; top: 96px;"
+        aria-label="HumNyaWe Mail window"
+      >
+        <header class="window-titlebar">
+          <span class="window-title">HumNyaWe Mail</span>
+          <div class="window-controls" aria-label="Window controls">
+            <button class="window-control minimize" type="button" aria-label="Minimize HumNyaWe Mail" tabindex="-1"></button>
+            <button class="window-control close" type="button" aria-label="Close HumNyaWe Mail">x</button>
+          </div>
+        </header>
+        <div class="window-body email-body">
+          <form class="email-form">
+            <label class="email-row">
+              <span>From</span>
+              <input class="email-input" name="from" type="text" placeholder="your name or email" />
+            </label>
+            <div class="email-row">
+              <span>To</span>
+              <div class="email-fixed-to">HumNyaWe 흠냐웨 &lt;humnyawe@gmail.com&gt;</div>
+            </div>
+            <label class="email-row">
+              <span>Subject</span>
+              <input class="email-input" name="subject" type="text" placeholder="Message from HumNyaWe website" />
+            </label>
+            <label class="email-message-row">
+              <span>Message</span>
+              <textarea class="email-message" name="message"></textarea>
+            </label>
+            <div class="email-alert is-hidden" role="alert">Please fill out From and Message.</div>
+            <div class="email-status is-hidden" role="status"></div>
+            <div class="email-actions">
+              <button class="send-mail-button" type="submit">Send Mail</button>
+            </div>
+          </form>
+        </div>
+      </section>
+
       <footer class="taskbar" aria-label="Taskbar">
         <nav class="start-menu is-hidden" aria-label="Start menu">
           <div class="start-menu-side">PASTEL 95</div>
@@ -211,6 +251,19 @@
         };
       }
 
+      function keepWindowSizeInDesktop(windowElement, nextWidth, nextHeight) {
+        const desktopRect = desktop.getBoundingClientRect();
+        const left = windowElement.offsetLeft;
+        const top = windowElement.offsetTop;
+        const maxWidth = Math.max(320, desktopRect.width - left - 8);
+        const maxHeight = Math.max(240, desktopRect.height - top - 54);
+
+        return {
+          width: Math.max(320, Math.min(nextWidth, maxWidth)),
+          height: Math.max(240, Math.min(nextHeight, maxHeight)),
+        };
+      }
+
       function clearIconSelection() {
         desktopIcons.forEach((icon) => icon.classList.remove('is-selected'));
         selectedIcon = null;
@@ -259,6 +312,10 @@
           clearIconSelection();
           selectedIcon = icon;
           icon.classList.add('is-selected');
+
+          if (icon.dataset.openSingle === 'true') {
+            openWindow(icon.dataset.openWindow);
+          }
         });
 
         icon.addEventListener('dblclick', (event) => {
@@ -348,9 +405,65 @@
       windows.forEach((windowElement) => {
         const titlebar = windowElement.querySelector('.window-titlebar');
         const closeButton = windowElement.querySelector('.window-control.close');
+        const rightResize = document.createElement('div');
+        const bottomResize = document.createElement('div');
+        const cornerResize = document.createElement('div');
+
+        rightResize.className = 'resize-edge-right';
+        bottomResize.className = 'resize-edge-bottom';
+        cornerResize.className = 'resize-corner';
+        rightResize.dataset.resize = 'right';
+        bottomResize.dataset.resize = 'bottom';
+        cornerResize.dataset.resize = 'corner';
+        windowElement.append(rightResize, bottomResize, cornerResize);
 
         windowElement.addEventListener('pointerdown', () => focusWindow(windowElement));
         closeButton.addEventListener('click', () => closeWindow(windowElement));
+
+        [rightResize, bottomResize, cornerResize].forEach((handle) => {
+          handle.addEventListener('pointerdown', (event) => {
+            event.preventDefault();
+            event.stopPropagation();
+            focusWindow(windowElement);
+            windowElement.classList.add('is-resizing');
+            handle.setPointerCapture(event.pointerId);
+
+            const mode = handle.dataset.resize;
+            const startX = event.clientX;
+            const startY = event.clientY;
+            const startWidth = windowElement.offsetWidth;
+            const startHeight = windowElement.offsetHeight;
+
+            function resizeWindow(moveEvent) {
+              const wantsWidth = mode === 'right' || mode === 'corner';
+              const wantsHeight = mode === 'bottom' || mode === 'corner';
+              const nextSize = keepWindowSizeInDesktop(
+                windowElement,
+                wantsWidth ? startWidth + moveEvent.clientX - startX : startWidth,
+                wantsHeight ? startHeight + moveEvent.clientY - startY : startHeight,
+              );
+
+              windowElement.style.width = `${nextSize.width}px`;
+              windowElement.style.height = `${nextSize.height}px`;
+
+              if (windowElement.id === 'paint-window') {
+                resizePaintCanvas();
+              }
+            }
+
+            function stopResize(upEvent) {
+              windowElement.classList.remove('is-resizing');
+              handle.releasePointerCapture(upEvent.pointerId);
+              handle.removeEventListener('pointermove', resizeWindow);
+              handle.removeEventListener('pointerup', stopResize);
+              handle.removeEventListener('pointercancel', stopResize);
+            }
+
+            handle.addEventListener('pointermove', resizeWindow);
+            handle.addEventListener('pointerup', stopResize);
+            handle.addEventListener('pointercancel', stopResize);
+          });
+        });
 
         titlebar.addEventListener('pointerdown', (event) => {
           if (event.target.closest('button')) {
@@ -405,6 +518,12 @@
       const galleryCount = document.querySelector('.gallery-count');
       const galleryPrev = document.querySelector('.gallery-prev');
       const galleryNext = document.querySelector('.gallery-next');
+      const emailForm = document.querySelector('.email-form');
+      const emailFrom = document.querySelector('.email-input[name="from"]');
+      const emailSubject = document.querySelector('.email-input[name="subject"]');
+      const emailMessage = document.querySelector('.email-message[name="message"]');
+      const emailAlert = document.querySelector('.email-alert');
+      const emailStatus = document.querySelector('.email-status');
       let paintTool = 'brush';
       let paintColor = '#2e2540';
       let isPainting = false;
@@ -515,6 +634,34 @@
 
       galleryPrev.addEventListener('click', () => showGalleryImage(galleryIndex - 1));
       galleryNext.addEventListener('click', () => showGalleryImage(galleryIndex + 1));
+
+      emailForm.addEventListener('submit', (event) => {
+        event.preventDefault();
+
+        const from = emailFrom.value.trim();
+        const subject = emailSubject.value.trim() || 'Message from HumNyaWe website';
+        const message = emailMessage.value.trim();
+
+        if (!from || !message) {
+          emailStatus.classList.add('is-hidden');
+          emailAlert.classList.remove('is-hidden');
+          return;
+        }
+
+        emailAlert.classList.add('is-hidden');
+        emailStatus.classList.remove('is-hidden');
+        emailStatus.textContent = 'Opening your email app...';
+
+        const body = `From: ${from}\n\nMessage:\n${message}`;
+        const mailto = `mailto:humnyawe@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+        const mailLink = document.createElement('a');
+
+        mailLink.href = mailto;
+        mailLink.style.display = 'none';
+        document.body.append(mailLink);
+        mailLink.click();
+        mailLink.remove();
+      });
 
       const clock = document.querySelector('.clock');
 
