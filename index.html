@@ -1,0 +1,539 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pastel 95 Desktop</title>
+    <link rel="stylesheet" href="./src/styles.css" />
+  </head>
+  <body>
+    <main class="desktop" aria-label="Pastel Windows 95 style desktop">
+      <div class="selection-box is-hidden" aria-hidden="true"></div>
+      <aside class="desktop-icons" aria-label="Desktop icons">
+        <button class="desktop-icon" type="button" data-open-window="humnyawe-window">
+          <img class="pixel-icon" src="./1_source/eyeball.png" alt="" aria-hidden="true" />
+          <span class="icon-label">흠냐웨</span>
+        </button>
+        <button class="desktop-icon" type="button" data-open-window="paint-window">
+          <img class="pixel-icon" src="./1_source/paint.png" alt="" aria-hidden="true" />
+          <span class="icon-label">Paint</span>
+        </button>
+        <button class="desktop-icon" type="button" data-open-window="gallery-window">
+          <img class="pixel-icon" src="./1_source/galley.png" alt="" aria-hidden="true" />
+          <span class="icon-label">Gallery</span>
+        </button>
+        <button class="desktop-icon" type="button">
+          <img class="pixel-icon" src="./1_source/email.png" alt="" aria-hidden="true" />
+          <span class="icon-label">Email</span>
+        </button>
+        <button class="desktop-icon" type="button">
+          <img class="pixel-icon" src="./1_source/trash.png" alt="" aria-hidden="true" />
+          <span class="icon-label">Trash</span>
+        </button>
+      </aside>
+
+      <section
+        class="desktop-window humnyawe-window is-hidden"
+        id="humnyawe-window"
+        style="left: 150px; top: 64px;"
+        aria-label="흠냐웨 window"
+      >
+        <header class="window-titlebar">
+          <span class="window-title">흠냐웨</span>
+          <div class="window-controls" aria-label="Window controls">
+            <button class="window-control minimize" type="button" aria-label="Minimize 흠냐웨" tabindex="-1"></button>
+            <button class="window-control close" type="button" aria-label="Close 흠냐웨">x</button>
+          </div>
+        </header>
+        <div class="window-body web-window-body">
+          <iframe class="web-window-frame" src="./humnyawe/index.html" title="흠냐웨"></iframe>
+        </div>
+      </section>
+
+      <section
+        class="desktop-window paint-window is-hidden"
+        id="paint-window"
+        style="left: 190px; top: 86px;"
+        aria-label="Paint window"
+      >
+        <header class="window-titlebar">
+          <span class="window-title">Paint</span>
+          <div class="window-controls" aria-label="Window controls">
+            <button class="window-control minimize" type="button" aria-label="Minimize Paint" tabindex="-1"></button>
+            <button class="window-control close" type="button" aria-label="Close Paint">x</button>
+          </div>
+        </header>
+        <div class="window-body paint-body">
+          <div class="paint-toolbar" aria-label="Paint tools">
+            <button class="paint-tool is-active" type="button" data-tool="brush" aria-label="Brush tool">BR</button>
+            <button class="paint-tool" type="button" data-tool="eraser" aria-label="Eraser tool">ER</button>
+            <label class="brush-size-label" for="brush-size">Size</label>
+            <select class="brush-size" id="brush-size" aria-label="Brush size">
+              <option value="2">2px</option>
+              <option value="4" selected>4px</option>
+              <option value="8">8px</option>
+              <option value="14">14px</option>
+            </select>
+            <button class="clear-canvas" type="button">Clear</button>
+          </div>
+          <div class="paint-workspace">
+            <canvas class="paint-canvas" width="620" height="360" aria-label="Drawing canvas"></canvas>
+            <div class="color-palette" aria-label="Color palette">
+              <button class="color-swatch is-active" type="button" style="--swatch: #2e2540;" data-color="#2e2540" aria-label="Dark purple"></button>
+              <button class="color-swatch" type="button" style="--swatch: #ff83c9;" data-color="#ff83c9" aria-label="Pink"></button>
+              <button class="color-swatch" type="button" style="--swatch: #9f84ff;" data-color="#9f84ff" aria-label="Purple"></button>
+              <button class="color-swatch" type="button" style="--swatch: #7ec8ee;" data-color="#7ec8ee" aria-label="Blue"></button>
+              <button class="color-swatch" type="button" style="--swatch: #fff074;" data-color="#fff074" aria-label="Yellow"></button>
+              <button class="color-swatch" type="button" style="--swatch: #ffffff;" data-color="#ffffff" aria-label="White"></button>
+              <button class="color-swatch" type="button" style="--swatch: #111111;" data-color="#111111" aria-label="Black"></button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section
+        class="desktop-window gallery-window is-hidden"
+        id="gallery-window"
+        style="left: 280px; top: 150px;"
+        aria-label="Gallery window"
+      >
+        <header class="window-titlebar">
+          <span class="window-title">Gallery</span>
+          <div class="window-controls" aria-label="Window controls">
+            <button class="window-control minimize" type="button" aria-label="Minimize Gallery" tabindex="-1"></button>
+            <button class="window-control close" type="button" aria-label="Close Gallery">x</button>
+          </div>
+        </header>
+        <div class="window-body gallery-body">
+          <div class="gallery-viewer">
+            <button class="gallery-arrow gallery-prev" type="button" aria-label="Previous image">&lt;</button>
+            <figure class="gallery-image">
+              <img
+                class="gallery-photo"
+                src="./gallery/chicken-head.jpg"
+                alt="Gallery artwork"
+              />
+            </figure>
+            <button class="gallery-arrow gallery-next" type="button" aria-label="Next image">&gt;</button>
+          </div>
+          <div class="gallery-status" aria-live="polite">
+            <span class="gallery-count">1 / 4</span>
+          </div>
+        </div>
+      </section>
+
+      <footer class="taskbar" aria-label="Taskbar">
+        <nav class="start-menu is-hidden" aria-label="Start menu">
+          <div class="start-menu-side">PASTEL 95</div>
+          <div class="start-menu-items">
+            <button type="button">Programs</button>
+            <button type="button">Documents</button>
+            <button type="button">Settings</button>
+            <button type="button">Find</button>
+            <button type="button">Help</button>
+            <button type="button">Shut Down</button>
+          </div>
+        </nav>
+        <button class="start-button" type="button">
+          Start
+        </button>
+        <div class="task-tabs" aria-label="Active window tabs"></div>
+        <time class="clock">AM 0:00</time>
+      </footer>
+    </main>
+    <script>
+      const desktop = document.querySelector('.desktop');
+      const startButton = document.querySelector('.start-button');
+      const startMenu = document.querySelector('.start-menu');
+      const selectionBox = document.querySelector('.selection-box');
+      const desktopIcons = document.querySelectorAll('.desktop-icon');
+      const launchIcons = document.querySelectorAll('[data-open-window]');
+      const windows = document.querySelectorAll('.desktop-window');
+      const taskTabs = document.querySelector('.task-tabs');
+      let topZIndex = 10;
+      let selectedIcon = null;
+      let isSelectingDesktop = false;
+      let selectionStart = { x: 0, y: 0 };
+      let selectionMoved = false;
+
+      function focusWindow(windowElement) {
+        topZIndex += 1;
+        windowElement.style.zIndex = topZIndex;
+
+        windows.forEach((item) => item.classList.toggle('is-focused', item === windowElement));
+        syncTaskTabs();
+      }
+
+      function openWindow(windowId) {
+        const windowElement = document.getElementById(windowId);
+        if (!windowElement) {
+          return;
+        }
+
+        windowElement.classList.remove('is-hidden');
+        focusWindow(windowElement);
+
+        if (windowId === 'paint-window') {
+          requestAnimationFrame(resizePaintCanvas);
+        }
+      }
+
+      function closeWindow(windowElement) {
+        windowElement.classList.add('is-hidden');
+        windowElement.classList.remove('is-focused');
+        syncTaskTabs();
+      }
+
+      function syncTaskTabs() {
+        const openWindows = [...windows].filter((item) => !item.classList.contains('is-hidden'));
+
+        taskTabs.innerHTML = '';
+
+        openWindows.forEach((windowElement) => {
+          const tab = document.createElement('button');
+          tab.className = `task-tab ${windowElement.classList.contains('is-focused') ? 'is-active' : ''}`;
+          tab.type = 'button';
+          tab.textContent = windowElement.querySelector('.window-title').textContent;
+          tab.addEventListener('click', () => focusWindow(windowElement));
+          taskTabs.append(tab);
+        });
+      }
+
+      function keepWindowInDesktop(windowElement, nextLeft, nextTop) {
+        const desktopRect = desktop.getBoundingClientRect();
+        const windowRect = windowElement.getBoundingClientRect();
+        const maxLeft = desktopRect.width - windowRect.width - 8;
+        const maxTop = desktopRect.height - windowRect.height - 54;
+
+        return {
+          left: Math.max(8, Math.min(nextLeft, maxLeft)),
+          top: Math.max(8, Math.min(nextTop, maxTop)),
+        };
+      }
+
+      function clearIconSelection() {
+        desktopIcons.forEach((icon) => icon.classList.remove('is-selected'));
+        selectedIcon = null;
+      }
+
+      function pointInsideRectangle(point, rectangle) {
+        return (
+          point.x >= rectangle.left &&
+          point.x <= rectangle.right &&
+          point.y >= rectangle.top &&
+          point.y <= rectangle.bottom
+        );
+      }
+
+      function updateIconSelectionFromBox() {
+        const selectionRect = selectionBox.getBoundingClientRect();
+        let lastSelected = null;
+
+        desktopIcons.forEach((icon) => {
+          const iconImageRect = icon.querySelector('.pixel-icon').getBoundingClientRect();
+          const iconLabelRect = icon.querySelector('.icon-label').getBoundingClientRect();
+          const iconImageCenter = {
+            x: iconImageRect.left + iconImageRect.width / 2,
+            y: iconImageRect.top + iconImageRect.height / 2,
+          };
+          const iconLabelCenter = {
+            x: iconLabelRect.left + iconLabelRect.width / 2,
+            y: iconLabelRect.top + iconLabelRect.height / 2,
+          };
+          const isInsideSelection =
+            pointInsideRectangle(iconImageCenter, selectionRect) ||
+            pointInsideRectangle(iconLabelCenter, selectionRect);
+
+          icon.classList.toggle('is-selected', isInsideSelection);
+
+          if (isInsideSelection) {
+            lastSelected = icon;
+          }
+        });
+
+        selectedIcon = lastSelected;
+      }
+
+      launchIcons.forEach((icon) => {
+        icon.addEventListener('click', () => {
+          clearIconSelection();
+          selectedIcon = icon;
+          icon.classList.add('is-selected');
+        });
+
+        icon.addEventListener('dblclick', (event) => {
+          event.preventDefault();
+          openWindow(icon.dataset.openWindow);
+        });
+
+        icon.addEventListener('pointerup', (event) => {
+          if (event.detail >= 2) {
+            openWindow(icon.dataset.openWindow);
+          }
+        });
+
+        icon.addEventListener('keydown', (event) => {
+          if (event.key === 'Enter') {
+            openWindow(icon.dataset.openWindow);
+          }
+        });
+      });
+
+      startButton.addEventListener('click', () => {
+        startMenu.classList.toggle('is-hidden');
+        startButton.classList.toggle('is-pressed');
+      });
+
+      desktop.addEventListener('pointerdown', (event) => {
+        if (!event.target.closest('.start-button') && !event.target.closest('.start-menu')) {
+          startMenu.classList.add('is-hidden');
+          startButton.classList.remove('is-pressed');
+        }
+
+        if (event.target.closest('.desktop-icons, .desktop-window, .taskbar, .start-menu')) {
+          return;
+        }
+
+        event.preventDefault();
+        isSelectingDesktop = true;
+        selectionMoved = false;
+        selectionStart = { x: event.clientX, y: event.clientY };
+        clearIconSelection();
+        selectionBox.classList.remove('is-hidden');
+        selectionBox.style.left = `${selectionStart.x}px`;
+        selectionBox.style.top = `${selectionStart.y}px`;
+        selectionBox.style.width = '0px';
+        selectionBox.style.height = '0px';
+        desktop.setPointerCapture(event.pointerId);
+      });
+
+      desktop.addEventListener('pointermove', (event) => {
+        if (!isSelectingDesktop) {
+          return;
+        }
+
+        const left = Math.min(selectionStart.x, event.clientX);
+        const top = Math.min(selectionStart.y, event.clientY);
+        const width = Math.abs(event.clientX - selectionStart.x);
+        const height = Math.abs(event.clientY - selectionStart.y);
+        selectionMoved = width > 4 || height > 4;
+
+        selectionBox.style.left = `${left}px`;
+        selectionBox.style.top = `${top}px`;
+        selectionBox.style.width = `${width}px`;
+        selectionBox.style.height = `${height}px`;
+
+        if (selectionMoved) {
+          updateIconSelectionFromBox();
+        }
+      });
+
+      function stopDesktopSelection(event) {
+        if (!isSelectingDesktop) {
+          return;
+        }
+
+        isSelectingDesktop = false;
+        selectionBox.classList.add('is-hidden');
+        desktop.releasePointerCapture(event.pointerId);
+
+        if (!selectionMoved) {
+          clearIconSelection();
+        }
+      }
+
+      desktop.addEventListener('pointerup', stopDesktopSelection);
+      desktop.addEventListener('pointercancel', stopDesktopSelection);
+
+      windows.forEach((windowElement) => {
+        const titlebar = windowElement.querySelector('.window-titlebar');
+        const closeButton = windowElement.querySelector('.window-control.close');
+
+        windowElement.addEventListener('pointerdown', () => focusWindow(windowElement));
+        closeButton.addEventListener('click', () => closeWindow(windowElement));
+
+        titlebar.addEventListener('pointerdown', (event) => {
+          if (event.target.closest('button')) {
+            return;
+          }
+
+          focusWindow(windowElement);
+          titlebar.setPointerCapture(event.pointerId);
+
+          const startX = event.clientX;
+          const startY = event.clientY;
+          const startLeft = windowElement.offsetLeft;
+          const startTop = windowElement.offsetTop;
+
+          function dragWindow(moveEvent) {
+            const nextPosition = keepWindowInDesktop(
+              windowElement,
+              startLeft + moveEvent.clientX - startX,
+              startTop + moveEvent.clientY - startY,
+            );
+
+            windowElement.style.left = `${nextPosition.left}px`;
+            windowElement.style.top = `${nextPosition.top}px`;
+          }
+
+          function stopDrag(upEvent) {
+            titlebar.releasePointerCapture(upEvent.pointerId);
+            titlebar.removeEventListener('pointermove', dragWindow);
+            titlebar.removeEventListener('pointerup', stopDrag);
+            titlebar.removeEventListener('pointercancel', stopDrag);
+          }
+
+          titlebar.addEventListener('pointermove', dragWindow);
+          titlebar.addEventListener('pointerup', stopDrag);
+          titlebar.addEventListener('pointercancel', stopDrag);
+        });
+      });
+
+      const paintCanvas = document.querySelector('.paint-canvas');
+      const paintContext = paintCanvas.getContext('2d');
+      const paintTools = document.querySelectorAll('.paint-tool');
+      const colorSwatches = document.querySelectorAll('.color-swatch');
+      const brushSize = document.querySelector('.brush-size');
+      const clearCanvas = document.querySelector('.clear-canvas');
+      const galleryImages = [
+        './gallery/chicken-head.jpg',
+        './gallery/eyegg.jpg',
+        './gallery/eyedol.jpg',
+        './gallery/parents.png',
+      ];
+      const galleryPhoto = document.querySelector('.gallery-photo');
+      const galleryCount = document.querySelector('.gallery-count');
+      const galleryPrev = document.querySelector('.gallery-prev');
+      const galleryNext = document.querySelector('.gallery-next');
+      let paintTool = 'brush';
+      let paintColor = '#2e2540';
+      let isPainting = false;
+      let lastPoint = null;
+      let galleryIndex = 0;
+
+      function resizePaintCanvas() {
+        const canvasRect = paintCanvas.getBoundingClientRect();
+        if (!canvasRect.width || !canvasRect.height) {
+          return;
+        }
+
+        const savedDrawing = document.createElement('canvas');
+        savedDrawing.width = paintCanvas.width;
+        savedDrawing.height = paintCanvas.height;
+        savedDrawing.getContext('2d').drawImage(paintCanvas, 0, 0);
+
+        const scale = window.devicePixelRatio || 1;
+        paintCanvas.width = Math.max(1, Math.floor(canvasRect.width * scale));
+        paintCanvas.height = Math.max(1, Math.floor(canvasRect.height * scale));
+
+        paintContext.setTransform(1, 0, 0, 1, 0, 0);
+        paintContext.fillStyle = '#ffffff';
+        paintContext.fillRect(0, 0, paintCanvas.width, paintCanvas.height);
+        paintContext.drawImage(savedDrawing, 0, 0, paintCanvas.width, paintCanvas.height);
+      }
+
+      function getCanvasPoint(event) {
+        const canvasRect = paintCanvas.getBoundingClientRect();
+        const scaleX = paintCanvas.width / canvasRect.width;
+        const scaleY = paintCanvas.height / canvasRect.height;
+
+        return {
+          x: (event.clientX - canvasRect.left) * scaleX,
+          y: (event.clientY - canvasRect.top) * scaleY,
+        };
+      }
+
+      function drawLine(point) {
+        paintContext.lineCap = 'round';
+        paintContext.lineJoin = 'round';
+        paintContext.lineWidth = Number(brushSize.value) * (window.devicePixelRatio || 1);
+        paintContext.strokeStyle = paintTool === 'eraser' ? '#ffffff' : paintColor;
+        paintContext.beginPath();
+        paintContext.moveTo(lastPoint.x, lastPoint.y);
+        paintContext.lineTo(point.x, point.y);
+        paintContext.stroke();
+        lastPoint = point;
+      }
+
+      paintCanvas.addEventListener('pointerdown', (event) => {
+        event.preventDefault();
+        paintCanvas.setPointerCapture(event.pointerId);
+        isPainting = true;
+        lastPoint = getCanvasPoint(event);
+        drawLine(lastPoint);
+      });
+
+      paintCanvas.addEventListener('pointermove', (event) => {
+        if (!isPainting) {
+          return;
+        }
+
+        drawLine(getCanvasPoint(event));
+      });
+
+      function stopPainting(event) {
+        if (!isPainting) {
+          return;
+        }
+
+        isPainting = false;
+        lastPoint = null;
+        paintCanvas.releasePointerCapture(event.pointerId);
+      }
+
+      paintCanvas.addEventListener('pointerup', stopPainting);
+      paintCanvas.addEventListener('pointercancel', stopPainting);
+
+      paintTools.forEach((toolButton) => {
+        toolButton.addEventListener('click', () => {
+          paintTool = toolButton.dataset.tool;
+          paintCanvas.classList.toggle('is-erasing', paintTool === 'eraser');
+          paintTools.forEach((item) => item.classList.toggle('is-active', item === toolButton));
+        });
+      });
+
+      colorSwatches.forEach((swatch) => {
+        swatch.addEventListener('click', () => {
+          paintColor = swatch.dataset.color;
+          paintTool = 'brush';
+          paintCanvas.classList.remove('is-erasing');
+          colorSwatches.forEach((item) => item.classList.toggle('is-active', item === swatch));
+          paintTools.forEach((item) => item.classList.toggle('is-active', item.dataset.tool === 'brush'));
+        });
+      });
+
+      clearCanvas.addEventListener('click', () => {
+        paintContext.fillStyle = '#ffffff';
+        paintContext.fillRect(0, 0, paintCanvas.width, paintCanvas.height);
+      });
+
+      function showGalleryImage(nextIndex) {
+        galleryIndex = (nextIndex + galleryImages.length) % galleryImages.length;
+        galleryPhoto.src = galleryImages[galleryIndex];
+        galleryCount.textContent = `${galleryIndex + 1} / ${galleryImages.length}`;
+      }
+
+      galleryPrev.addEventListener('click', () => showGalleryImage(galleryIndex - 1));
+      galleryNext.addEventListener('click', () => showGalleryImage(galleryIndex + 1));
+
+      const clock = document.querySelector('.clock');
+
+      function updateClock() {
+        const now = new Date();
+        const period = now.getHours() >= 12 ? 'PM' : 'AM';
+        const hours = now.getHours() % 12 || 12;
+        const minutes = String(now.getMinutes()).padStart(2, '0');
+        const timestamp = `${period} ${hours}:${minutes}`;
+
+        clock.textContent = timestamp;
+        clock.setAttribute('datetime', now.toISOString());
+      }
+
+      window.addEventListener('resize', resizePaintCanvas);
+      requestAnimationFrame(resizePaintCanvas);
+      showGalleryImage(0);
+      updateClock();
+      setInterval(updateClock, 1000);
+    </script>
+  </body>
+</html>
